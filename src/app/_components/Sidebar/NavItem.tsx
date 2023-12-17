@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import Icon from "~/app/_components/Icon";
+import { cn } from "~/utils";
 
 import { type NavItemProps } from "./types";
 
@@ -11,7 +12,7 @@ import { type NavItemProps } from "./types";
  * This is a client component because Next.js doesn't support accessing the current route
  * in server components: https://github.com/vercel/next.js/issues/43704
  *
- * Once it's added, this can be a server component.
+ * Once this functionality is added, this can become a server component.
  */
 
 const NavItem: FC<NavItemProps> = ({ href, icon, label }) => {
@@ -21,10 +22,10 @@ const NavItem: FC<NavItemProps> = ({ href, icon, label }) => {
   return (
     <Link
       href={href}
-      className={`
-        flex cursor-pointer items-center gap-4 rounded-xl px-4 py-3
-        ${isActive && "bg-gray-50"}
-      `}
+      className={cn(
+        "flex cursor-pointer items-center gap-4 rounded-xl px-4 py-3",
+        isActive && "bg-gray-50",
+      )}
     >
       <Icon
         type={icon}
@@ -32,10 +33,10 @@ const NavItem: FC<NavItemProps> = ({ href, icon, label }) => {
         size="default"
       />
       <span
-        className={`
-          text-base font-medium
-        ${isActive ? "text-primary-600" : "text-gray-700"}
-      `}
+        className={cn(
+          "text-base font-medium leading-6",
+          isActive ? "text-primary-600" : "text-gray-700",
+        )}
       >
         {label}
       </span>

@@ -1,4 +1,4 @@
-import { ROUTES } from "~/app/config";
+import { getRoute } from "~/utils";
 
 import { type NavItemProps } from "./types";
 
@@ -6,11 +6,11 @@ export const NAV_ITEMS: NavItemProps[] = [
   {
     label: "Home",
     icon: "home",
-    href: ROUTES.home,
+    href: getRoute("home"),
   },
   {
     label: "Log In",
     icon: "login",
-    href: ROUTES.login,
+    href: getRoute("login"),
   },
 ];
