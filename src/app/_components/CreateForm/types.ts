@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type FormEvent, type ReactNode } from "react";
 
 export interface CreateFormProps {
   children: ReactNode;
@@ -6,4 +6,5 @@ export interface CreateFormProps {
   button: {
     label: string;
   };
+  onSubmit: (event: FormEvent) => void;
 }

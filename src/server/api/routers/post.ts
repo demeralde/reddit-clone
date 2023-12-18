@@ -1,8 +1,7 @@
-import { clerkClient } from "@clerk/nextjs";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 import type { Post } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { z } from "zod";
 
 import {
@@ -10,19 +9,10 @@ import {
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { filterUserForClient } from "~/server/utils/filterUserForClient";
 
 const addUserDataToPosts = async (posts: Post[]) => {
   const userIds = posts.map((post) => post.authorId);
   return posts;
-
-  try {
-    const userList = await clerkClient.users.getUserList({
-      userId: userIds,
-    });
-  } catch (err) {
-    console.log(err);
-  }
 
   // const users = userList.map(filterUserForClient);
 
