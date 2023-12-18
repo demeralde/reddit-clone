@@ -1,15 +1,12 @@
-import { type AvatarProps } from "~/app/_components/Avatar";
-
+import { type ID, type Author, type VoteType } from "~/typings";
 export interface PostProps {
   id: ID;
   title: string;
   description: string;
   createdAt: Date;
-  author: {
-    username: AvatarProps["username"];
-    avatarSrc: AvatarProps["src"];
-  };
+  author: Author;
   upvotes: number;
   downvotes: number;
   userVote?: VoteType;
+  noLink?: boolean;
 }

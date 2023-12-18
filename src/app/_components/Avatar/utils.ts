@@ -1,4 +1,4 @@
 import { type AvatarProps } from ".";
 
-export const getInitials = (username: AvatarProps["username"]) =>
+export const getInitials = (username: AvatarProps["name"]) =>
   username.slice(0, 2);

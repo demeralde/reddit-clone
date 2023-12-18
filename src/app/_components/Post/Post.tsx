@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import Link from "next/link";
 
-import Avatar from "~/app/_components/Avatar";
+import Author from "~/app/_components/Author";
 import VoteButton from "~/app/_components/VoteButton";
 import { getRoute, getTotalVotes, timeFromNow } from "~/utils";
 
@@ -16,8 +16,11 @@ const Post: FC<PostProps> = ({
   downvotes,
   userVote,
   createdAt,
+  noLink,
 }) => {
   const totalVotes = getTotalVotes(upvotes, downvotes, userVote);
+
+  const postLink = getRoute("post", { id });
 
   return (
     <div className="flex gap-x-4">
@@ -39,16 +42,13 @@ const Post: FC<PostProps> = ({
         />
       </div>
       <div className="flex flex-col gap-y-1.5">
-        <div className="flex items-center gap-x-2">
-          <Avatar src={author.avatarSrc} username={author.username} />
-          <span className="text-sm leading-5 text-gray-600">
-            Posted by {author.username} {timeFromNow(createdAt)}
-          </span>
-        </div>
+        <Author label="Posted by" createdAt={createdAt} {...author} />
         <h4 className="font-medium leading-6 text-gray-900">
-          <Link href={getRoute("post", { id })}>{title}</Link>
+          {noLink ? title : <Link href={postLink}>{title}</Link>}
         </h4>
-        <p className="text-sm leading-5 text-gray-700">{description}</p>
+        <p className="text-sm leading-5 text-gray-700">
+          {noLink ? description : <Link href={postLink}>{description}</Link>}
+        </p>
       </div>
     </div>
   );

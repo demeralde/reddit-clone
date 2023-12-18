@@ -1,6 +1,7 @@
 import { type FC } from "react";
 
 import { type IconTypeMap, type IconSVGProps } from "./types";
+import { SIZE_MAP } from "./constants";
 
 const HomeIcon: FC<IconSVGProps> = ({ size }) => (
   <>
@@ -29,24 +30,46 @@ const LoginIcon: FC<IconSVGProps> = () => (
   />
 );
 
-const UpvoteIcon: FC<IconSVGProps> = () => (
+const UpvoteIcon: FC<IconSVGProps> = ({ size }) => (
   <>
-    <path
-      d="M3.33325 11.6667L9.99992 5L16.6666 11.6667M6.66659 14.1665L9.99992 10.8332L13.3333 14.1665"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    {size === SIZE_MAP.default && (
+      <path
+        d="M3.33325 11.6667L9.99992 5L16.6666 11.6667M6.66659 14.1665L9.99992 10.8332L13.3333 14.1665"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    )}
+    {size === SIZE_MAP.small && (
+      <path
+        d="M2.66699 9.33342L8.00033 4.00009L13.3337 9.33342M5.33366 11.3333L8.00033 8.66663L10.667 11.3333"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    )}
   </>
 );
 
-const DownvoteIcon: FC<IconSVGProps> = () => (
-  <path
-    d="M13.3333 5.83333L9.99992 9.16666L6.66659 5.83333M3.33325 8.33333L9.99992 15L16.6666 8.33333"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
+const DownvoteIcon: FC<IconSVGProps> = ({ size }) => (
+  <>
+    {size === SIZE_MAP.default && (
+      <path
+        d="M13.3333 5.83333L9.99992 9.16666L6.66659 5.83333M3.33325 8.33333L9.99992 15L16.6666 8.33333"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    )}
+    {size === SIZE_MAP.small && (
+      <path
+        d="M10.667 4.66676L8.00032 7.33343L5.33366 4.66676M2.66699 6.66676L8.00032 12.0001L13.3337 6.66677"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    )}
+  </>
 );
 
 const MyPostsIcon: FC<IconSVGProps> = () => (

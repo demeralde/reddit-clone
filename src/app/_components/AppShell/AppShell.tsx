@@ -1,22 +1,23 @@
 import { type FC } from "react";
-import { Inter } from "next/font/google";
 
 import Sidebar from "~/app/_components/Sidebar";
+import { ScrollArea } from "~/app/_components/ui/scroll-area";
 
 import { type AppShellProps } from "./types";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
+/**
+ * Note the `mx-[143px]` is because this is the exact spacing from Figma. To keep it 1:1,
+ * I've used this instead of `mx-36` (144px).
+ */
 const AppShell: FC<AppShellProps> = ({ children }) => (
-  <html lang="en">
-    <body className={`font-sans ${inter.variable} antialised flex h-screen`}>
-      <Sidebar />
-      <main>{children}</main>
-    </body>
-  </html>
+  <>
+    <Sidebar />
+    <main className="w-full">
+      <ScrollArea className="max-h-screen w-full overflow-auto">
+        <div className="mx-[143px] mt-10 w-full max-w-[600px]">{children}</div>
+      </ScrollArea>
+    </main>
+  </>
 );
 
 export default AppShell;

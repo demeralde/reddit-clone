@@ -4,4 +4,6 @@ export interface NavItemProps {
   label: string;
   icon: IconType;
   href: string;
+  showWhenLoggedIn: boolean;
+  showWhenLoggedOut: boolean;
 }

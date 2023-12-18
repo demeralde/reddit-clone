@@ -1,7 +1,7 @@
 export type AvatarSize = "default" | "large";
 
 export interface AvatarProps {
-  username: string;
+  name: string;
   src: string;
   size?: AvatarSize;
 }
