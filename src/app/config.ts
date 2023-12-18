@@ -10,18 +10,22 @@ export interface RouteWithParams extends Route {
   params: ParamNames;
 }
 
-export type RouteName = "home" | "login" | "post";
+export type RouteName = "home" | "login" | "posts" | "post" | "myPosts";
 
 export type Routes = {
   [key in RouteName]: Route | RouteWithParams;
 } & {
   home: Route;
   login: Route;
+  posts: Route;
   post: RouteWithParams;
+  myPosts: Route;
 };
 
 export const ROUTES: Routes = {
   home: { path: "/" },
   login: { path: "/login" },
-  post: { path: "/post/:id", params: ["id"] },
+  posts: { path: "/posts" },
+  post: { path: "/posts/:id", params: ["id"] },
+  myPosts: { path: "/my-posts" },
 };
