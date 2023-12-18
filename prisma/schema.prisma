@@ -12,10 +12,55 @@ datasource db {
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id        String     @id @default(cuid())
+    title     String     @db.VarChar(300)
+    content   String     @db.Text
+    authorId  String
+    comments  Comment[]
+    votes     PostVote[]
+    createdAt DateTime   @default(now())
 
-    @@index([name])
+    @@index([authorId])
+}
+
+model Comment {
+    id        String        @id @default(cuid())
+    content   String        @db.Text
+    authorId  String
+    votes     CommentVote[]
+    post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    createdAt DateTime      @default(now())
+
+    replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    replyToId String?
+    replies   Comment[] @relation("ReplyTo")
+
+    @@index([postId])
+    @@index([replyToId])
+}
+
+model PostVote {
+    type   VoteType
+    userId String
+    post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId String
+
+    @@id([userId, postId])
+    @@index([postId])
+}
+
+model CommentVote {
+    type      VoteType
+    userId    String
+    comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+    commentId String
+
+    @@id([userId, commentId])
+    @@index([commentId])
+}
+
+enum VoteType {
+    UPVOTE
+    DOWNVOTE
 }
