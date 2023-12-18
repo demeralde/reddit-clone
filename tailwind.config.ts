@@ -14,6 +14,10 @@ export default {
     colors: {
       primary: colors.indigo,
       gray: colors.gray,
+      white: colors.white,
+      blue: {
+        950: "#172554",
+      },
     },
     container: {
       center: true,
@@ -39,6 +43,12 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      boxShadow: {
+        card: "0px 8px 16px 0px rgba(0, 0, 0, 0.05)",
+      },
+      borderRadius: {
+        button: "10px",
       },
     },
   },
