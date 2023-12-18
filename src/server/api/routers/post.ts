@@ -1,32 +1,123 @@
+import { clerkClient } from "@clerk/nextjs";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
+import type { Post } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
+import { filterUserForClient } from "~/server/utils/filterUserForClient";
+
+const addUserDataToPosts = async (posts: Post[]) => {
+  const userIds = posts.map((post) => post.authorId);
+  return posts;
+
+  try {
+    const userList = await clerkClient.users.getUserList({
+      userId: userIds,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+
+  // const users = userList.map(filterUserForClient);
+
+  // return posts.map((post) => {
+  //   const author = users.find((user) => user.id === post.authorId);
+
+  //   if (!author) {
+  //     console.error("AUTHOR NOT FOUND", post);
+  //     throw new TRPCError({
+  //       code: "INTERNAL_SERVER_ERROR",
+  //       message: `Author for post not found. POST ID: ${post.id}, USER ID: ${post.authorId}`,
+  //     });
+  //   }
+  //   if (!author.username) {
+  //     // user the ExternalUsername
+  //     if (!author.externalUsername) {
+  //       throw new TRPCError({
+  //         code: "INTERNAL_SERVER_ERROR",
+  //         message: `Author has no GitHub Account: ${author.id}`,
+  //       });
+  //     }
+  //     author.username = author.externalUsername;
+  //   }
+  //   return {
+  //     post,
+  //     author: {
+  //       ...author,
+  //       username: author.username ?? "(username not found)",
+  //     },
+  //   };
+  // });
+};
+
+// Create a new ratelimiter, that allows 3 requests per 1 minute
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  analytics: true,
+});
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
+  getById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const post = await ctx.prisma.post.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!post) throw new TRPCError({ code: "NOT_FOUND" });
+
+      return (await addUserDataToPosts([post]))[0];
     }),
 
-  create: publicProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const posts = await ctx.prisma.post.findMany({
+      take: 100,
+      orderBy: [{ createdAt: "desc" }],
+    });
 
-      return ctx.db.post.create({
+    return addUserDataToPosts(posts);
+  }),
+
+  getMyPosts: privateProcedure.query(({ ctx }) =>
+    ctx.prisma.post
+      .findMany({
+        where: {
+          authorId: ctx.userId,
+        },
+        take: 100,
+        orderBy: [{ createdAt: "desc" }],
+      })
+      .then(addUserDataToPosts),
+  ),
+
+  create: privateProcedure
+    .input(
+      z.object({
+        title: z.string().min(3).max(300),
+        content: z.string().min(10).max(40000),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const authorId = ctx.userId;
+
+      const { success } = await ratelimit.limit(authorId);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
+      const post = await ctx.prisma.post.create({
         data: {
-          name: input.name,
+          authorId,
+          title: input.title,
+          content: input.content,
         },
       });
-    }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
-  }),
+      return post;
+    }),
 });
