@@ -1,10 +1,11 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { cookies } from "next/headers";
+import { Inter } from "next/font/google";
 import { type ReactNode } from "react";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import AppShell from "~/app/_components/AppShell";
 import "~/styles/globals.css";
+import { getRoute } from "~/utils";
 
 export const metadata = {
   title: "Reddit Clone",
@@ -16,14 +17,35 @@ interface Props {
   children: ReactNode;
 }
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const postsRoute = getRoute("posts");
+
 export default function RootLayout({ children }: Props) {
   return (
-    <ClerkProvider>
-      <AppShell>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
-        </TRPCReactProvider>
-      </AppShell>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`font-sans ${inter.variable} antialised flex h-screen`}>
+        <ClerkProvider
+          afterSignInUrl={postsRoute}
+          afterSignUpUrl={postsRoute}
+          localization={{
+            signUp: {
+              start: {
+                title: "Join the best community ever",
+                subtitle: "Create an account today",
+                actionText: "Already have an account?",
+              },
+            },
+          }}
+        >
+          <TRPCReactProvider cookies={cookies().toString()}>
+            {children}
+          </TRPCReactProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

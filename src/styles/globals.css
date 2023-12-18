@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cl-card {
+    @apply shadow-none gap-y-7 p-0;
+}
+
+.cl-header {
+    @apply gap-y-1;
+}
+
+.cl-headerTitle {
+    @apply font-medium text-gray-900 leading-10;
+    font-size: 28px;
+}
+
+.cl-headerSubtitle {
+    @apply text-gray-600 text-xl leading-8;
+}
+
+.cl-socialButtonsBlockButton {
+    @apply py-3 px-5 rounded-xl gap-x-3 border-gray-300;
+}
+
+.cl-socialButtonsBlockButtonText {
+    @apply text-gray-700 leading-6;
+}
+
+.cl-footerAction {
+    @apply gap-x-1;
+}
+
+.cl-footerActionText {
+    @apply text-gray-700 leading-6;
+}
+
+.cl-footerActionLink {
+    @apply text-blue-950 focus:text-blue-950 hover:text-blue-950 font-medium leading-6;
+}
