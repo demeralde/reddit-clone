@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { type RouteName, ROUTES, type ParamMap } from "~/app/config";
+import { type VoteType } from "~/typings";
 
 dayjs.extend(relativeTime);
 
@@ -18,9 +19,9 @@ export const getTotalVotes = (
 ) => {
   let total = upvotes - downvotes;
 
-  if (userVote === "upvote") {
+  if (userVote === "UPVOTE") {
     total += 1;
-  } else if (userVote === "downvote") {
+  } else if (userVote === "DOWNVOTE") {
     total -= 1;
   }
 
