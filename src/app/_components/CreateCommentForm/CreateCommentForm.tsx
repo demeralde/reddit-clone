@@ -7,6 +7,7 @@ import {
   type ChangeEvent,
 } from "react";
 import { SignedIn } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { ZodError } from "zod";
 
 import { Textarea } from "~/app/_components/ui/textarea";
@@ -24,6 +25,7 @@ const CreateCommentForm: FC<CreateCommentFormProps> = ({
   replyToId,
 }) => {
   const { toast } = useToast();
+  const router = useRouter();
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const disabled = content === "";
@@ -31,6 +33,7 @@ const CreateCommentForm: FC<CreateCommentFormProps> = ({
   const { mutate: create, isLoading } = api.comment.create.useMutation({
     onSuccess: () => {
       setContent("");
+      router.refresh();
     },
     onError: (error) => {
       console.log(error);

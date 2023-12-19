@@ -7,6 +7,7 @@ import {
   type ChangeEvent,
 } from "react";
 import { SignedIn } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { ZodError } from "zod";
 
 import { Input } from "~/app/_components/ui/input";
@@ -22,6 +23,7 @@ import { type Errors } from "./types";
 
 const CreatePostForm: FC = () => {
   const { toast } = useToast();
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState<Errors>({});
@@ -31,6 +33,7 @@ const CreatePostForm: FC = () => {
     onSuccess: () => {
       setTitle("");
       setDescription("");
+      router.refresh();
     },
     onError: (error) => {
       console.log(error);

@@ -16,7 +16,7 @@ export const commentRouter = createTRPCRouter({
       const { success } = await rateLimit.limit(authorId);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
-      const post = await ctx.prisma.comment.create({
+      const comment = await ctx.prisma.comment.create({
         data: {
           content,
           authorId,
@@ -25,7 +25,7 @@ export const commentRouter = createTRPCRouter({
         },
       });
 
-      return post;
+      return comment;
     }),
 
   toggleVote: privateProcedure
