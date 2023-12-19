@@ -1,10 +1,10 @@
+export { VoteType } from "@prisma/client";
+
 import { type AvatarProps } from "~/app/_components/Avatar";
 
-type ID = string;
+export type ID = string;
 
-type VoteType = "upvote" | "downvote";
-
-type Author = {
+export type Author = {
   username: AvatarProps["name"];
   avatarSrc: AvatarProps["src"];
 };
