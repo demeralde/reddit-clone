@@ -11,7 +11,7 @@ import {
 } from "~/app/_components/ui/dropdown-menu";
 import Avatar from "~/app/_components/Avatar";
 import { AvatarSkeleton, TextSkeleton } from "~/app/_components/Skeleton";
-import { getRoute } from "~/utils";
+import { ROUTES } from "~/config/routes";
 
 const UserButton: FC = () => {
   const { user, isLoaded } = useUser();
@@ -20,7 +20,7 @@ const UserButton: FC = () => {
   const avatarSize = "large";
 
   const logout = useCallback(async () => {
-    router.push(getRoute("posts"));
+    router.push(ROUTES.posts);
     await signOut();
   }, [signOut]);
 

@@ -6,7 +6,7 @@ import { type ReactNode } from "react";
 import { Toaster } from "~/app/_components/ui/toaster";
 import { TRPCReactProvider } from "~/trpc/react";
 import "~/styles/globals.css";
-import { getRoute } from "~/utils";
+import { ROUTES } from "~/config/routes";
 
 export const metadata = {
   title: "Reddit Clone",
@@ -23,15 +23,13 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
-const postsRoute = getRoute("posts");
-
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} antialised flex h-screen`}>
         <ClerkProvider
-          afterSignInUrl={postsRoute}
-          afterSignUpUrl={postsRoute}
+          afterSignInUrl={ROUTES.posts}
+          afterSignUpUrl={ROUTES.posts}
           localization={{
             signUp: {
               start: {

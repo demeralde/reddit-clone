@@ -6,8 +6,9 @@ import CreateCommentForm from "~/app/_components/CreateCommentForm";
 import Divider from "~/app/_components/Divider";
 import CommentContainer from "~/app/_components/Comment";
 import Post from "~/app/_components/Post";
+import { ROUTES } from "~/config/routes";
 import { api } from "~/trpc/server";
-import { getRoute, isLastItem } from "~/utils";
+import { isLastItem } from "~/utils";
 
 import {
   type BasePostPageProps,
@@ -18,7 +19,7 @@ import {
 export const BasePostPage: FC<BasePostPageProps> = ({ post, comments }) => (
   <div className="flex flex-col">
     <div className="flex flex-col gap-y-6">
-      <BackLink href={getRoute("posts")}>Back to posts</BackLink>
+      <BackLink href={ROUTES.posts}>Back to posts</BackLink>
       {post}
       <CreateCommentForm />
     </div>

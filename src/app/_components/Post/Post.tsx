@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import Author from "~/app/_components/Author";
 import VoteButtonGroup from "~/app/_components/VoteButtonGroup";
-import { getRoute } from "~/utils";
+import { ROUTES } from "~/config/routes";
 
 import { type BasePostProps, type PostProps } from "./types";
 
@@ -36,7 +36,7 @@ const Post: FC<PostProps> = ({
   createdAt,
   withLink,
 }) => {
-  const postLink = getRoute("post", { id });
+  const postLink = ROUTES.post(id);
 
   return (
     <BasePost

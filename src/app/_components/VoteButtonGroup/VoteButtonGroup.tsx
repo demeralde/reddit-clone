@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 
 import { api } from "~/trpc/react";
-import { cn, getRoute, getTotalVotes } from "~/utils";
+import { cn, getTotalVotes } from "~/utils";
 import { type VoteType } from "~/typings";
 import { useToast } from "~/app/_components/ui/use-toast";
+import { ROUTES } from "~/config/routes";
 
 import { type VoteButtonGroupProps } from "./types";
 import VoteButton from "./VoteButton";
@@ -81,7 +82,7 @@ const VoteButtonGroup: FC<VoteButtonGroupProps> = ({
           return newVote;
         });
       } else {
-        router.push(getRoute("login"));
+        router.push(ROUTES.login);
       }
     },
     [isLoggedIn, router, toggleVoteAPI],

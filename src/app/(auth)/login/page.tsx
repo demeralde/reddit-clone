@@ -1,11 +1,9 @@
 import { SignUp } from "@clerk/nextjs";
 
-import { getRoute } from "~/utils";
-
-const postsRoute = getRoute("posts");
+import { ROUTES } from "~/config/routes";
 
 const LoginPage = () => (
-  <SignUp afterSignUpUrl={postsRoute} afterSignInUrl={postsRoute} />
+  <SignUp afterSignUpUrl={ROUTES.posts} afterSignInUrl={ROUTES.posts} />
 );
 
 export default LoginPage;

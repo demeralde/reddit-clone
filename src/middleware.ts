@@ -1,15 +1,10 @@
 import { authMiddleware } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-import { getRoute } from "./utils";
+import { ROUTES } from "~/config/routes";
 
 export default authMiddleware({
-  publicRoutes: [
-    getRoute("home"),
-    getRoute("posts"),
-    getRoute("post", { id: ":id" }),
-    getRoute("login"),
-  ],
+  publicRoutes: [ROUTES.home, ROUTES.posts, ROUTES.post(":id"), ROUTES.login],
   afterAuth: (auth, req) => {
     let response;
 

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import VoteButtonGroup from "~/app/_components/VoteButtonGroup";
 import CreateCommentForm from "~/app/_components/CreateCommentForm";
-import { getRoute } from "~/utils";
+import { ROUTES } from "~/config/routes";
 
 import ReplyButton from "./ReplyButton";
 import { type CommentFooterProps } from "./types";
@@ -27,7 +27,7 @@ const CommentFooter: FC<CommentFooterProps> = ({
     if (isLoggedIn) {
       setIsCommentBoxRendered(!isCommentBoxRendered);
     } else {
-      router.push(getRoute("login"));
+      router.push(ROUTES.login);
     }
   }, [isLoggedIn, isCommentBoxRendered]);
 
