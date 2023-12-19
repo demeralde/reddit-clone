@@ -1,11 +1,25 @@
 import { type FC } from "react";
 
 import Author from "~/app/_components/Author";
+import { cn } from "~/utils";
 
-import { type CommentProps } from "./types";
+import { type BaseCommentProps, type CommentContainerProps } from "./types";
 import CommentFooter from "./CommentFooter";
 
-const BaseComment: FC<CommentProps> = ({
+export const BaseComment: FC<BaseCommentProps> = ({
+  author,
+  content,
+  footer,
+  isRoot,
+}) => (
+  <div className={cn("flex flex-col gap-y-3", !isRoot && "mt-4")}>
+    {author}
+    {content}
+    {footer}
+  </div>
+);
+
+const Comment: FC<CommentContainerProps> = ({
   author,
   createdAt,
   content,
@@ -13,29 +27,34 @@ const BaseComment: FC<CommentProps> = ({
   userVote,
   upvotes,
   downvotes,
-}) => {
-  return (
-    <div className="flex flex-col gap-y-3">
-      <Author createdAt={createdAt} {...author} />
-      <p className="text-sm leading-5 text-gray-800">{content}</p>
+  isRoot,
+}) => (
+  <BaseComment
+    isRoot={isRoot}
+    author={<Author createdAt={createdAt} {...author} />}
+    content={<p className="text-sm leading-5 text-gray-800">{content}</p>}
+    footer={
       <CommentFooter
         id={id}
         userVote={userVote}
         upvotes={upvotes}
         downvotes={downvotes}
       />
-    </div>
-  );
-};
+    }
+  />
+);
 
-const Comment: FC<CommentProps> = ({ replies, ...otherProps }) => {
+const CommentContainer: FC<CommentContainerProps> = ({
+  replies,
+  ...otherProps
+}) => {
   return (
     <div className="gap-y-4">
-      <BaseComment {...otherProps} replies={replies} />
+      <Comment {...otherProps} replies={replies} />
       {replies.length > 0 && (
-        <div className="ml-8 mt-4">
+        <div className="ml-8">
           {replies.map((reply) => (
-            <Comment {...reply} key={reply.id} />
+            <CommentContainer {...reply} key={reply.id} />
           ))}
         </div>
       )}
@@ -43,4 +62,4 @@ const Comment: FC<CommentProps> = ({ replies, ...otherProps }) => {
   );
 };
 
-export default Comment;
+export default CommentContainer;

@@ -1,10 +1,10 @@
 import CreatePostForm from "~/app/_components/CreatePostForm";
-import { SkeletonPostList } from "~/app/_components/Skeleton";
+import { PostSkeletonList } from "~/app/_components/Skeleton";
 
 const LoadingPosts = () => (
   <>
     <CreatePostForm />
-    <SkeletonPostList />
+    <PostSkeletonList />
   </>
 );
 

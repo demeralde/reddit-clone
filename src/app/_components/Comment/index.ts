@@ -1,5 +1,6 @@
-import Comment from "./Comment";
+import CommentContainer, { BaseComment } from "./Comment";
 
 export * from "./types";
+export { BaseComment };
 
-export default Comment;
+export default CommentContainer;

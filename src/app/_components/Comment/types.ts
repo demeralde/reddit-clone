@@ -1,3 +1,5 @@
+import { type ReactNode } from "react";
+
 import { type ID, type Author, type VoteType } from "~/typings";
 
 export interface CommentFooterProps {
@@ -7,14 +9,22 @@ export interface CommentFooterProps {
   downvotes: number;
 }
 
-interface CommentPropsBase extends CommentFooterProps {
+export interface BaseCommentProps {
+  author: ReactNode;
+  content: ReactNode;
+  footer: ReactNode;
+  isRoot?: boolean;
+}
+
+interface CommentProps extends CommentFooterProps {
   content: string;
   createdAt: Date;
   author: Author;
 }
 
-export interface CommentProps extends CommentPropsBase {
-  replies: CommentProps[];
+export interface CommentContainerProps extends CommentProps {
+  replies: CommentContainerProps[];
+  isRoot?: boolean;
 }
 
 export interface ReplyButtonProps {
