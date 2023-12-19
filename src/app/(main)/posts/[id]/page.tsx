@@ -15,7 +15,7 @@ const PostPage = () => (
     <div className="flex flex-col">
       <div className="flex flex-col gap-y-6">
         <BackLink href={getRoute("posts")}>Back to posts</BackLink>
-        <Post {...(postMock as unknown as PostProps)} noLink />
+        <Post {...(postMock as unknown as PostProps)} withLink />
         <CreateCommentForm />
       </div>
       <Divider margin="medium" />
