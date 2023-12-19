@@ -21,12 +21,13 @@ import { transformer } from "./shared";
  * handling a tRPC call from a React Server Component.
  */
 const createContext = cache(() => {
-  return createTRPCContext({
+  const context = createTRPCContext({
     headers: new Headers({
       cookie: cookies().toString(),
       "x-trpc-source": "rsc",
     }),
   });
+  return context;
 });
 
 export const api = createTRPCProxyClient<AppRouter>({

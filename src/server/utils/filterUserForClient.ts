@@ -1,13 +1,19 @@
 import { type User } from "@clerk/nextjs/server";
 
+const getFullName = (user: User) => {
+  let name = user.firstName;
+
+  if (user.lastName) {
+    name = `${name} ${user.lastName}`;
+  }
+
+  return name;
+};
+
 export const filterUserForClient = (user: User) => {
   return {
     id: user.id,
-    username: user.username,
+    username: getFullName(user) ?? user.username ?? "no username",
     avatarUrl: user.imageUrl,
-    externalUsername:
-      user.externalAccounts.find(
-        (externalAccount) => externalAccount.provider === "oauth_google",
-      )?.username ?? null,
   };
 };
