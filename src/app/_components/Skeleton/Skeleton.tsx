@@ -64,7 +64,11 @@ const PostSkeletonList = () =>
   listIds.map((id, index) => (
     <Fragment key={id}>
       <PostSkeleton />
-      {!isLastItem(listIds, index) && <Divider margin="large" />}
+      {!isLastItem(listIds, index) ? (
+        <Divider margin="large" />
+      ) : (
+        <div className="mb-10" />
+      )}
     </Fragment>
   ));
 
@@ -86,7 +90,11 @@ const CommentSkeletonList = () =>
   listIds.map((id, index) => (
     <Fragment key={id}>
       <CommentSkeleton />
-      {!isLastItem(listIds, index) && <Divider margin="medium" />}
+      {!isLastItem(listIds, index) ? (
+        <Divider margin="medium" />
+      ) : (
+        <div className="mb-6" />
+      )}
     </Fragment>
   ));
 
