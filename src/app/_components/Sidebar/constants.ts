@@ -6,7 +6,7 @@ export const NAV_ITEMS: NavItemProps[] = [
   {
     label: "Home",
     icon: "home",
-    href: ROUTES.home,
+    href: ROUTES.posts,
     showWhenLoggedIn: true,
     showWhenLoggedOut: true,
   },
