@@ -48,7 +48,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "upvote",
+    userVote: "UPVOTE",
   },
   {
     id: "4",
@@ -63,7 +63,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "downvote",
+    userVote: "DOWNVOTE",
   },
   {
     id: "5",
@@ -106,7 +106,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "upvote",
+    userVote: "UPVOTE",
   },
   {
     id: "8",
@@ -121,7 +121,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "downvote",
+    userVote: "DOWNVOTE",
   },
   {
     id: "9",
@@ -164,7 +164,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "upvote",
+    userVote: "UPVOTE",
   },
   {
     id: "12",
@@ -179,7 +179,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "downvote",
+    userVote: "DOWNVOTE",
   },
   {
     id: "13",
@@ -222,7 +222,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "upvote",
+    userVote: "UPVOTE",
   },
   {
     id: "16",
@@ -237,7 +237,7 @@ export const POST_MOCKS: PostProps[] = [
     },
     upvotes: 130,
     downvotes: 25,
-    userVote: "downvote",
+    userVote: "DOWNVOTE",
   },
 ];
 
@@ -254,7 +254,7 @@ export const COMMENT_MOCKS: CommentProps[] = [
     },
     upvotes: 9,
     downvotes: 9,
-    userVote: "downvote",
+    userVote: "DOWNVOTE",
     replies: [],
   },
   {
@@ -282,7 +282,7 @@ export const COMMENT_MOCKS: CommentProps[] = [
         },
         upvotes: 9,
         downvotes: 9,
-        userVote: "downvote",
+        userVote: "DOWNVOTE",
         replies: [
           {
             id: "3",
@@ -296,7 +296,7 @@ export const COMMENT_MOCKS: CommentProps[] = [
             },
             upvotes: 9,
             downvotes: 9,
-            userVote: "downvote",
+            userVote: "DOWNVOTE",
             replies: [
               {
                 id: "4",
@@ -310,7 +310,7 @@ export const COMMENT_MOCKS: CommentProps[] = [
                 },
                 upvotes: 9,
                 downvotes: 9,
-                userVote: "downvote",
+                userVote: "DOWNVOTE",
                 replies: [],
               },
             ],
@@ -331,7 +331,7 @@ export const COMMENT_MOCKS: CommentProps[] = [
     },
     upvotes: 9,
     downvotes: 9,
-    userVote: "downvote",
+    userVote: "DOWNVOTE",
     replies: [],
   },
 ];
