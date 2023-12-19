@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { Inter } from "next/font/google";
 import { type ReactNode } from "react";
 
+import { Toaster } from "~/app/_components/ui/toaster";
 import { TRPCReactProvider } from "~/trpc/react";
 import "~/styles/globals.css";
 import { getRoute } from "~/utils";
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: Props) {
         >
           <TRPCReactProvider cookies={cookies().toString()}>
             {children}
+            <Toaster />
           </TRPCReactProvider>
         </ClerkProvider>
       </body>

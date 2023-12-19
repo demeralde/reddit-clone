@@ -18,6 +18,7 @@ export default {
       blue: {
         950: "#172554",
       },
+      red: colors.red,
     },
     container: {
       center: true,
