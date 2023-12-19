@@ -15,4 +15,5 @@ export interface TRPCError {
 export interface BasePostPageProps {
   post: ReactNode;
   comments: ReactNode;
+  postId: string;
 }

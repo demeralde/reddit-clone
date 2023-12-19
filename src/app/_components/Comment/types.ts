@@ -8,6 +8,8 @@ export interface CommentFooterProps {
   upvotes: number;
   downvotes: number;
   author: Author;
+  postId: string;
+  replyToId: string | null;
 }
 
 export interface BaseCommentProps {

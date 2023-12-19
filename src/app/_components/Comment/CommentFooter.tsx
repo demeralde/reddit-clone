@@ -16,6 +16,8 @@ const CommentFooter: FC<CommentFooterProps> = ({
   upvotes,
   downvotes,
   author,
+  postId,
+  replyToId,
 }) => {
   const { user } = useUser();
   const router = useRouter();
@@ -53,7 +55,7 @@ const CommentFooter: FC<CommentFooterProps> = ({
       </div>
       {isCommentBoxRendered && isLoggedIn && (
         <div className="my-3">
-          <CreateCommentForm />
+          <CreateCommentForm postId={postId} replyToId={replyToId} />
         </div>
       )}
     </>

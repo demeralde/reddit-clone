@@ -15,7 +15,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { filterUserForClient } from "~/server/utils/filterUserForClient";
-import { type ID } from "~/typings";
+import { type Author, type ID } from "~/typings";
 import { createPostValidation } from "~/config/validation";
 
 import { rateLimit } from "./utils";
@@ -41,6 +41,7 @@ interface StructuredComment extends Comment {
   downvotes: number;
   userVoteType?: VoteType;
   replies: StructuredComment[];
+  replyToId: ID | null;
   author: {
     id: string;
     avatarSrc: string;
@@ -98,6 +99,7 @@ const buildCommentTree = (
       const newComment: StructuredComment = {
         ...comment,
         replies: nestedReplies,
+        replyToId: comment.replyToId,
         ...getVoteData(comment.votes, userId),
         author: authors.find(
           (author) => author.id === comment.authorId,
@@ -111,10 +113,22 @@ const buildCommentTree = (
   return tree;
 };
 
+export interface StructuredPost {
+  id: ID;
+  title: string;
+  description: string;
+  createdAt: Date;
+  author: Author;
+  upvotes: number;
+  downvotes: number;
+  userVoteType?: VoteType;
+  comments?: StructuredComment[];
+}
+
 const addDataToPosts = async (
   posts: PostWithVotes[] | PostWithComments[],
   userId: ID | undefined | null,
-) => {
+): Promise<StructuredPost[]> => {
   const userIds = posts.map((post) => post.authorId);
   const userList = await clerkClient.users.getUserList({
     userId: userIds,

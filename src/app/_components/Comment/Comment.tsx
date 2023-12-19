@@ -28,6 +28,7 @@ const Comment: FC<CommentContainerProps> = ({
   upvotes,
   downvotes,
   isRoot,
+  postId,
 }) => (
   <BaseComment
     isRoot={isRoot}
@@ -40,6 +41,8 @@ const Comment: FC<CommentContainerProps> = ({
         upvotes={upvotes}
         downvotes={downvotes}
         author={author}
+        postId={postId}
+        replyToId={id}
       />
     }
   />
