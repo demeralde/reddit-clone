@@ -15,13 +15,14 @@ export const timeFromNow = (date: Date) => dayjs().to(date);
 export const getTotalVotes = (
   upvotes: number,
   downvotes: number,
-  userVote?: VoteType,
+  userVoteType: VoteType | null,
 ) => {
-  let total = upvotes - downvotes;
+  const authorVote = 1;
+  let total = authorVote + (upvotes - downvotes);
 
-  if (userVote === "UPVOTE") {
+  if (userVoteType === "UPVOTE") {
     total += 1;
-  } else if (userVote === "DOWNVOTE") {
+  } else if (userVoteType === "DOWNVOTE") {
     total -= 1;
   }
 

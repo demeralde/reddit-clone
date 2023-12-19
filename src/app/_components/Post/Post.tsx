@@ -2,8 +2,8 @@ import { type FC } from "react";
 import Link from "next/link";
 
 import Author from "~/app/_components/Author";
-import VoteButton from "~/app/_components/VoteButton";
-import { getRoute, getTotalVotes } from "~/utils";
+import VoteButtonGroup from "~/app/_components/VoteButtonGroup";
+import { getRoute } from "~/utils";
 
 import { type BasePostProps, type PostProps } from "./types";
 
@@ -32,34 +32,24 @@ const Post: FC<PostProps> = ({
   author,
   upvotes,
   downvotes,
-  userVote,
+  userVoteType,
   createdAt,
   withLink,
 }) => {
-  const totalVotes = getTotalVotes(upvotes, downvotes, userVote);
-
   const postLink = getRoute("post", { id });
 
   return (
     <BasePost
       votes={
-        <>
-          <VoteButton
-            type="upvote"
-            object="post"
-            id={id}
-            userVoted={userVote === "UPVOTE"}
-          />
-          <span className="font-medium leading-6 text-gray-800">
-            {totalVotes}
-          </span>
-          <VoteButton
-            type="downvote"
-            object="post"
-            id={id}
-            userVoted={userVote === "DOWNVOTE"}
-          />
-        </>
+        <VoteButtonGroup
+          id={id}
+          object="post"
+          userVoteType={userVoteType}
+          upvotes={upvotes}
+          downvotes={downvotes}
+          size="default"
+          authorId={author.id}
+        />
       }
       avatar={<Author label="Posted by" createdAt={createdAt} {...author} />}
       title={

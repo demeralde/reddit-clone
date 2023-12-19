@@ -57,7 +57,7 @@ const PostPage: FC<PostPageProps> = async ({ params }) => {
                   createdAt={comment.createdAt}
                   upvotes={comment.upvotes}
                   downvotes={comment.downvotes}
-                  userVote={comment.userVoteType}
+                  userVoteType={comment.userVoteType}
                   author={comment.author}
                   replies={comment.replies}
                   isRoot

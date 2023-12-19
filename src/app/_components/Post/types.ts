@@ -16,6 +16,6 @@ export interface PostProps {
   author: Author;
   upvotes: number;
   downvotes: number;
-  userVote?: VoteType;
+  userVoteType?: VoteType;
   withLink?: boolean;
 }

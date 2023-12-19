@@ -24,7 +24,7 @@ const Comment: FC<CommentContainerProps> = ({
   createdAt,
   content,
   id,
-  userVote,
+  userVoteType,
   upvotes,
   downvotes,
   isRoot,
@@ -36,9 +36,10 @@ const Comment: FC<CommentContainerProps> = ({
     footer={
       <CommentFooter
         id={id}
-        userVote={userVote}
+        userVoteType={userVoteType}
         upvotes={upvotes}
         downvotes={downvotes}
+        author={author}
       />
     }
   />
@@ -47,19 +48,17 @@ const Comment: FC<CommentContainerProps> = ({
 const CommentContainer: FC<CommentContainerProps> = ({
   replies,
   ...otherProps
-}) => {
-  return (
-    <div className="gap-y-4">
-      <Comment {...otherProps} replies={replies} />
-      {replies.length > 0 && (
-        <div className="ml-8">
-          {replies.map((reply) => (
-            <CommentContainer {...reply} key={reply.id} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+}) => (
+  <div className="gap-y-4">
+    <Comment {...otherProps} replies={replies} />
+    {replies.length > 0 && (
+      <div className="ml-8">
+        {replies.map((reply) => (
+          <CommentContainer {...reply} key={reply.id} />
+        ))}
+      </div>
+    )}
+  </div>
+);
 
 export default CommentContainer;

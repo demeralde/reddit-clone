@@ -4,9 +4,10 @@ import { type ID, type Author, type VoteType } from "~/typings";
 
 export interface CommentFooterProps {
   id: ID;
-  userVote?: VoteType;
+  userVoteType?: VoteType;
   upvotes: number;
   downvotes: number;
+  author: Author;
 }
 
 export interface BaseCommentProps {
@@ -19,7 +20,6 @@ export interface BaseCommentProps {
 interface CommentProps extends CommentFooterProps {
   content: string;
   createdAt: Date;
-  author: Author;
 }
 
 export interface CommentContainerProps extends CommentProps {

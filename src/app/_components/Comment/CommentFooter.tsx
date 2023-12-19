@@ -3,24 +3,24 @@ import { useState, type FC, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
-import VoteButton from "~/app/_components/VoteButton";
+import VoteButtonGroup from "~/app/_components/VoteButtonGroup";
 import CreateCommentForm from "~/app/_components/CreateCommentForm";
-import { getRoute, getTotalVotes } from "~/utils";
+import { getRoute } from "~/utils";
 
 import ReplyButton from "./ReplyButton";
 import { type CommentFooterProps } from "./types";
 
 const CommentFooter: FC<CommentFooterProps> = ({
   id,
-  userVote,
+  userVoteType,
   upvotes,
   downvotes,
+  author,
 }) => {
   const { user } = useUser();
   const router = useRouter();
 
   const [isCommentBoxRendered, setIsCommentBoxRendered] = useState(false);
-  const totalVotes = getTotalVotes(upvotes, downvotes, userVote);
   const isLoggedIn = !!user;
 
   const replyOnClick = useCallback(async () => {
@@ -35,22 +35,14 @@ const CommentFooter: FC<CommentFooterProps> = ({
     <>
       <div className="flex gap-x-4">
         <div className="flex items-center gap-x-2">
-          <VoteButton
-            type="upvote"
-            object="post"
+          <VoteButtonGroup
             id={id}
-            userVoted={userVote === "UPVOTE"}
+            object="comment"
+            userVoteType={userVoteType}
+            upvotes={upvotes}
+            downvotes={downvotes}
             size="small"
-          />
-          <span className="text-sm font-medium leading-5 text-gray-700">
-            {totalVotes}
-          </span>
-          <VoteButton
-            type="downvote"
-            object="post"
-            id={id}
-            userVoted={userVote === "DOWNVOTE"}
-            size="small"
+            authorId={author.id}
           />
         </div>
         <ReplyButton
