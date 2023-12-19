@@ -12,13 +12,13 @@ datasource db {
 }
 
 model Post {
-    id        String     @id @default(cuid())
-    title     String     @db.VarChar(300)
-    content   String     @db.Text
-    authorId  String
-    comments  Comment[]
-    votes     PostVote[]
-    createdAt DateTime   @default(now())
+    id          String     @id @default(cuid())
+    title       String     @db.VarChar(300)
+    description String     @db.Text
+    authorId    String
+    comments    Comment[]
+    votes       PostVote[]
+    createdAt   DateTime   @default(now())
 
     @@index([authorId])
 }
