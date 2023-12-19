@@ -2,7 +2,7 @@ import { clerkClient } from "@clerk/nextjs";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import {
-  type VoteType,
+  VoteType,
   type Post,
   type PostVote,
   type Comment,
@@ -59,7 +59,7 @@ const getVoteCount = (votes: VoteUnion, type: VoteType) =>
 const getVoteData = (votes: VoteUnion, userId: ID | undefined | null) => {
   const userVote = votes.find((vote) => vote.userId === userId);
   const userUpvoted = userVote?.type === "UPVOTE";
-  const userDownvoted = userVote?.type === "UPVOTE";
+  const userDownvoted = userVote?.type === "DOWNVOTE";
   let userVoteType: VoteType | undefined;
 
   if (userUpvoted) {
@@ -73,8 +73,8 @@ const getVoteData = (votes: VoteUnion, userId: ID | undefined | null) => {
 
   return {
     userVoteType,
-    upvotes,
-    downvotes,
+    upvotes: userUpvoted ? upvotes - 1 : upvotes,
+    downvotes: userDownvoted ? downvotes - 1 : downvotes,
   };
 };
 
@@ -142,13 +142,13 @@ const addDataToPosts = async (
         const authors = authorList.map(filterUserForClient);
         comments = buildCommentTree(post.comments, null, userId, authors);
       }
-
       return {
         id: post.id,
         title: post.title,
         description: post.description,
         createdAt: post.createdAt,
         author: {
+          id: author.id,
           avatarSrc: author.avatarSrc,
           username: author.username,
         },
@@ -251,7 +251,7 @@ export const postRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input: { title, description } }) => {
-      const authorId = ctx.userId;
+      const authorId = ctx.auth.userId;
 
       const { success } = await ratelimit.limit(authorId);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
@@ -265,5 +265,64 @@ export const postRouter = createTRPCRouter({
       });
 
       return post;
+    }),
+
+  toggleVote: privateProcedure
+    .input(
+      z.object({
+        postId: z.string(),
+        type: z.enum([VoteType.UPVOTE, VoteType.DOWNVOTE]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.auth.userId!;
+
+      const existingVote = await ctx.prisma.postVote.findUnique({
+        where: {
+          userId_postId: {
+            userId,
+            postId: input.postId,
+          },
+        },
+      });
+
+      let postVote;
+
+      if (!!existingVote) {
+        const shouldUndoVote = existingVote.type === input.type;
+
+        if (shouldUndoVote) {
+          postVote = await ctx.prisma.postVote.delete({
+            where: {
+              userId_postId: {
+                userId,
+                postId: input.postId,
+              },
+            },
+          });
+        } else {
+          postVote = await ctx.prisma.postVote.update({
+            where: {
+              userId_postId: {
+                userId,
+                postId: input.postId,
+              },
+            },
+            data: {
+              type: input.type,
+            },
+          });
+        }
+      } else {
+        postVote = await ctx.prisma.postVote.create({
+          data: {
+            userId,
+            postId: input.postId,
+            type: input.type,
+          },
+        });
+      }
+
+      return postVote;
     }),
 });
