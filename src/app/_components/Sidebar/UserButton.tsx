@@ -10,14 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "~/app/_components/ui/dropdown-menu";
 import Avatar from "~/app/_components/Avatar";
+import { AvatarSkeleton, TextSkeleton } from "~/app/_components/Skeleton";
 import { getRoute } from "~/utils";
 
-const AVATAR_SIZE = "large";
-
 const UserButton: FC = () => {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
+  const avatarSize = "large";
 
   const logout = useCallback(async () => {
     router.push(getRoute("posts"));
@@ -25,21 +25,26 @@ const UserButton: FC = () => {
   }, [signOut]);
 
   return (
-    user && (
+    (user ?? !isLoaded) && (
       <div className="mt-auto">
         <DropdownMenu>
           <DropdownMenuTrigger disabled={!user}>
             <span className="flex items-center gap-x-4 px-4 py-3">
-              {user && (
+              {user ? (
                 <>
                   <Avatar
-                    name={user.fullName ?? ""}
+                    name={user.fullName ?? "no username"}
                     src={user.imageUrl}
-                    size={AVATAR_SIZE}
+                    size={avatarSize}
                   />
-                  <span className="font-medium leading-6 text-gray-700">
-                    {user.fullName}
+                  <span className="text-left font-medium leading-6 text-gray-700">
+                    {user.fullName ?? "no username"}
                   </span>
+                </>
+              ) : (
+                <>
+                  <AvatarSkeleton size={avatarSize} />
+                  <TextSkeleton />
                 </>
               )}
             </span>

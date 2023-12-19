@@ -1,4 +1,13 @@
+import { type ReactNode } from "react";
+
 import { type ID, type Author, type VoteType } from "~/typings";
+
+export interface BasePostProps {
+  votes: ReactNode;
+  avatar: ReactNode;
+  title: ReactNode;
+  description: ReactNode;
+}
 export interface PostProps {
   id: ID;
   title: string;
@@ -8,5 +17,5 @@ export interface PostProps {
   upvotes: number;
   downvotes: number;
   userVote?: VoteType;
-  noLink?: boolean;
+  withLink?: boolean;
 }

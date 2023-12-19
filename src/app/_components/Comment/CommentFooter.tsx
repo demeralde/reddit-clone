@@ -39,7 +39,7 @@ const CommentFooter: FC<CommentFooterProps> = ({
             type="upvote"
             object="post"
             id={id}
-            userVoted={userVote === "upvote"}
+            userVoted={userVote === "UPVOTE"}
             size="small"
           />
           <span className="text-sm font-medium leading-5 text-gray-700">
@@ -49,7 +49,7 @@ const CommentFooter: FC<CommentFooterProps> = ({
             type="downvote"
             object="post"
             id={id}
-            userVoted={userVote === "downvote"}
+            userVoted={userVote === "DOWNVOTE"}
             size="small"
           />
         </div>
