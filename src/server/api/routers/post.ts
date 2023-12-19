@@ -1,6 +1,4 @@
 import { clerkClient } from "@clerk/nextjs";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 import {
   VoteType,
   type Post,
@@ -18,6 +16,9 @@ import {
 } from "~/server/api/trpc";
 import { filterUserForClient } from "~/server/utils/filterUserForClient";
 import { type ID } from "~/typings";
+import { createPostValidation } from "~/config/validation";
+
+import { rateLimit } from "./utils";
 
 interface Vote<T extends PostVote | CommentVote> {
   type: T["type"];
@@ -159,13 +160,6 @@ const addDataToPosts = async (
   );
 };
 
-// Create a new ratelimiter, that allows 3 requests per 1 minute
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, "1 m"),
-  analytics: true,
-});
-
 export const postRouter = createTRPCRouter({
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
@@ -244,16 +238,11 @@ export const postRouter = createTRPCRouter({
   ),
 
   create: privateProcedure
-    .input(
-      z.object({
-        title: z.string().min(3).max(300),
-        description: z.string().min(10).max(40000),
-      }),
-    )
+    .input(createPostValidation)
     .mutation(async ({ ctx, input: { title, description } }) => {
-      const authorId = ctx.auth.userId;
+      const authorId = ctx.auth.userId!;
 
-      const { success } = await ratelimit.limit(authorId);
+      const { success } = await rateLimit.limit(authorId);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
       const post = await ctx.prisma.post.create({

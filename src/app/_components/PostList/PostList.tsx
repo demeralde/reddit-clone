@@ -11,7 +11,11 @@ const PostList: FC<PostListProps> = ({ posts }) =>
     posts.map((post, index) => (
       <Fragment key={post.id}>
         <Post {...post} withLink />
-        {!isLastItem(posts, index) && <Divider margin="large" />}
+        {!isLastItem(posts, index) ? (
+          <Divider margin="large" />
+        ) : (
+          <div className="mb-10" />
+        )}
       </Fragment>
     ))
   ) : (
