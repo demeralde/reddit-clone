@@ -14,6 +14,6 @@ export const filterUserForClient = (user: User) => {
   return {
     id: user.id,
     username: getFullName(user) ?? user.username ?? "no username",
-    avatarUrl: user.imageUrl,
+    avatarSrc: user.imageUrl,
   };
 };
