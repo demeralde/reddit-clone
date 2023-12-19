@@ -1,20 +1,28 @@
 "use client";
-import { type FC } from "react";
+import { useCallback, type FC } from "react";
 import { useClerk, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/app/_components/ui/dropdown-menu";
-
 import Avatar from "~/app/_components/Avatar";
+import { getRoute } from "~/utils";
 
 const AVATAR_SIZE = "large";
 
 const UserButton: FC = () => {
   const { user } = useUser();
   const { signOut } = useClerk();
+  const router = useRouter();
+
+  const logout = useCallback(async () => {
+    router.push(getRoute("posts"));
+    await signOut();
+  }, [signOut]);
 
   return (
     user && (
@@ -37,9 +45,7 @@ const UserButton: FC = () => {
             </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => signOut()}>
-              Logout
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
