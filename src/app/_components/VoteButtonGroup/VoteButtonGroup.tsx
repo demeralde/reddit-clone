@@ -28,20 +28,24 @@ const VoteButtonGroup: FC<VoteButtonGroupProps> = ({
   const isLoggedIn = !!user;
   const userIsAuthor = user?.id === authorId;
   const totalVotes = getTotalVotes(upvotes, downvotes, vote);
-  const { mutate: togglePostVote, isLoading } = api.post.toggleVote.useMutation(
-    {
-      onError: (error) => {
-        console.log(error);
-        toast({
-          variant: "destructive",
-          title: "Oops, something went wrong",
-          description: "An error occurred during your vote. Please try again.",
-        });
-        setVote(null);
-      },
+
+  const onError = useCallback(
+    (error: unknown) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Oops, something went wrong",
+        description: "An error occurred during your vote. Please try again.",
+      });
+      setVote(null);
     },
+    [toast],
   );
-  const disabled = userIsAuthor || isLoading;
+  const { mutate: togglePostVote, isLoading: postVoteIsLoading } =
+    api.post.toggleVote.useMutation({ onError });
+  const { mutate: toggleCommentVote, isLoading: commentVoteIsLoading } =
+    api.comment.toggleVote.useMutation({ onError });
+  const disabled = userIsAuthor || postVoteIsLoading || commentVoteIsLoading;
 
   const toggleVoteAPI = useCallback(
     (voteType: VoteType) => {
@@ -51,7 +55,10 @@ const VoteButtonGroup: FC<VoteButtonGroupProps> = ({
           postId: id,
         });
       } else if (object === "comment") {
-        console.log("comment vote");
+        toggleCommentVote({
+          type: voteType,
+          commentId: id,
+        });
       }
     },
     [object, togglePostVote, id],
