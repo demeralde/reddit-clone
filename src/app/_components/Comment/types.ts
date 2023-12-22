@@ -9,7 +9,7 @@ export interface CommentFooterProps {
   downvotes: number;
   author: Author;
   postId: string;
-  replyToId: string | null;
+  replyToId?: string;
 }
 
 export interface BaseCommentProps {

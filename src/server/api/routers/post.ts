@@ -29,19 +29,23 @@ interface PostWithVotes extends Post {
   votes: Vote<PostVote>[];
 }
 
-interface CommentWithReplyIds extends Comment {
+interface CommentOverride extends Omit<Comment, "replyToId"> {
+  replyToId?: ID;
+}
+
+interface CommentWithReplyIds extends CommentOverride {
   votes: Vote<CommentVote>[];
   replies: {
     id: Comment["id"];
   }[];
 }
 
-interface StructuredComment extends Comment {
+interface StructuredComment extends CommentOverride {
   upvotes: number;
   downvotes: number;
   userVoteType?: VoteType;
   replies: StructuredComment[];
-  replyToId: ID | null;
+  replyToId?: ID;
   author: {
     id: string;
     avatarSrc: string;
