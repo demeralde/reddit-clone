@@ -38,3 +38,15 @@
 .cl-footerActionLink {
     @apply text-blue-950 focus:text-blue-950 hover:text-blue-950 font-medium leading-6;
 }
+
+.cl-identityPreviewEditButtonIcon path {
+    @apply fill-primary-600;
+}
+
+.cl-form .cl-formResendCodeLink {
+    @apply text-blue-950 font-medium;
+}
+
+.cl-formButtonPrimary {
+    @apply bg-primary-500;
+}
