@@ -1,11 +1,11 @@
 import * as React from "react";
-import * as LabelPrimitive from "@radix-ui/react-label";
+import type * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import {
   Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
   FormProvider,
   useFormContext,
 } from "react-hook-form";
@@ -157,7 +157,7 @@ const FormMessage = React.forwardRef<
       ref={ref}
       id={formMessageId}
       className={cn(
-        "text-red-500 dark:text-red-900 text-sm font-medium",
+        "text-sm font-medium text-red-500 dark:text-red-900",
         className,
       )}
       {...props}
