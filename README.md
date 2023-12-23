@@ -1,8 +1,10 @@
 # reddit-clone
 
-A basic Reddit clone.
+This is a basic Reddit clone using the [T3 stack](https://github.com/t3-oss/create-t3-app).
 
-## How to set up
+## Technology
+
+## 👨🏻‍💻 Development
 
 1. Install dependencies:
 
@@ -28,4 +30,20 @@ pnpm run db:push
 
 ```sh
 pnpm run dev
+```
+
+### 🛠️ Utility scripts
+
+Lint the codebase with ESLint:
+
+```sh
+pnpm lint
+pnpm lint:fix # Automatically fix errors
+```
+
+Format the codebase with Prettier:
+
+```sh
+pnpm prettier
+pnpm prettier:fix # Automatically fix errors
 ```
