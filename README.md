@@ -1,6 +1,6 @@
 # reddit-clone
 
-This is a basic Reddit clone using the [T3 stack](https://github.com/t3-oss/create-t3-app).
+This is a basic Reddit clone built using the [T3 stack](https://github.com/t3-oss/create-t3-app).
 
 ## Technology
 
